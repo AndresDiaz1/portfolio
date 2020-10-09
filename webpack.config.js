@@ -1,3 +1,6 @@
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const path = require('path');
+
 module.exports = {
     mode: process.env.NODE_ENV === "production" ? "production" : "development",
     devtool: "inline-source-map",
@@ -21,5 +24,18 @@ module.exports = {
         { test: /\.css$/, use: ["style-loader", "css-loader"] },
       ],
     },
-    plugins: [],
+    plugins: [
+      new CopyWebpackPlugin({
+        patterns: [
+          {
+            from: path.resolve(__dirname, 'www/index.html'),
+            to: path.resolve(__dirname, 'build')
+          },
+          {
+            from: path.resolve(__dirname, 'assets', '**', '*'),
+            to: path.resolve(__dirname, 'build')
+          }
+        ]
+      })
+    ],
   };
